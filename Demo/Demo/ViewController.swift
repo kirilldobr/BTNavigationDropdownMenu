@@ -26,9 +26,10 @@ class ViewController: UIViewController {
         
         menuView.setMenuTitle("Heyy!")
 
+      //  menuView.imageColor = .gray
         menuView.cellBackgroundColor = .white
         menuView.cellSeparatorColor = .black
-        menuView.cellSelectionColor = UIColor.white
+        menuView.cellSelectionColor = UIColor.blue
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = .black
         menuView.cellTextLabelFont = UIFont(name: "SFUIText-Regular", size: 17)

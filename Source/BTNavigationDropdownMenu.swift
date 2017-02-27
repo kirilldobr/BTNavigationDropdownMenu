@@ -601,6 +601,8 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         self.selectRowAtIndexPathHandler!(indexPath.row)
         self.reloadData()
         let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
+        cell?.checkmarkIcon.image!.withRenderingMode(.alwaysTemplate)
+        cell?.checkmarkIcon.tintColor = configuration.imageColor
         cell?.contentView.backgroundColor = self.configuration.cellSelectionColor
         cell?.textLabel?.textColor = self.configuration.selectedCellTextLabelColor
     }
