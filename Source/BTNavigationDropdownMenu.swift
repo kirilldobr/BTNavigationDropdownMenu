@@ -339,6 +339,8 @@ open class BTNavigationDropdownMenu: UIView, HideMenuDelegate {
     override open func layoutSubviews() {
         self.menuTitle.sizeToFit()
         self.menuTitle.center = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
+        self.arrowImage.withRenderingMode(.alwaysTemplate)
+        self.menuArrow.tintColor = configuration.imageColor
         self.menuTitle.textColor = self.configuration.menuTitleColor
         self.menuArrow.sizeToFit()
         self.menuArrow.center = CGPoint(x: self.menuTitle.frame.maxX + self.configuration.arrowPadding, y: self.frame.size.height/2)
@@ -493,6 +495,7 @@ class BTConfiguration {
     var maskBackgroundOpacity: CGFloat!
     var shouldChangeTitleText: Bool!
     var minimumSpeedToClose: CGFloat!
+    var imageColor: UIColor!
     
     init() {
         self.defaultValue()
@@ -527,6 +530,7 @@ class BTConfiguration {
         self.maskBackgroundOpacity = 0.3
         self.shouldChangeTitleText = false
         self.minimumSpeedToClose = -1000
+        self.imageColor = .darkGray
     }
 }
 
