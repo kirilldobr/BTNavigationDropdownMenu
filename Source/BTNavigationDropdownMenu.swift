@@ -644,7 +644,7 @@ class BTTableViewCell: UITableViewCell {
     var cellContentFrame: CGRect!
     var configuration: BTConfiguration!
     
-    let checkmarkIconWidth: CGFloat!
+    var checkmarkIconWidth: CGFloat = 0
     let horizontalMargin: CGFloat = 50
 
     
