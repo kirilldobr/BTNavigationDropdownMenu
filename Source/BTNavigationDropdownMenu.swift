@@ -339,8 +339,7 @@ open class BTNavigationDropdownMenu: UIView, HideMenuDelegate {
     override open func layoutSubviews() {
         self.menuTitle.sizeToFit()
         self.menuTitle.center = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
-        self.arrowImage.withRenderingMode(.alwaysTemplate)
-        self.menuArrow.tintColor = configuration.imageColor
+
         self.menuTitle.textColor = self.configuration.menuTitleColor
         self.menuArrow.sizeToFit()
         self.menuArrow.center = CGPoint(x: self.menuTitle.frame.maxX + self.configuration.arrowPadding, y: self.frame.size.height/2)
@@ -674,7 +673,12 @@ class BTTableViewCell: UITableViewCell {
         self.checkmarkIcon.isHidden = true
         self.checkmarkIcon.image = self.configuration.checkMarkImage
         self.checkmarkIcon.contentMode = UIViewContentMode.scaleAspectFit
+        self.checkmarkIcon.image?.withRenderingMode(.alwaysTemplate)
+        self.checkmarkIcon.tintColor = configuration.imageColor
         self.contentView.addSubview(self.checkmarkIcon)
+        
+
+        
         
         // Separator for cell
         let separator = BTTableCellContentView(frame: cellContentFrame)

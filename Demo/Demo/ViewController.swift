@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 
         menuView.cellBackgroundColor = .white
         menuView.cellSeparatorColor = .black
-        menuView.cellSelectionColor = UIColor.lightGray
+        menuView.cellSelectionColor = UIColor.white
         menuView.shouldKeepSelectedCellColor = true
         menuView.cellTextLabelColor = .black
         menuView.cellTextLabelFont = UIFont(name: "SFUIText-Regular", size: 17)
