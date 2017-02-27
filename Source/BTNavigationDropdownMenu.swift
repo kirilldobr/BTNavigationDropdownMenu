@@ -495,6 +495,7 @@ class BTConfiguration {
     var shouldChangeTitleText: Bool!
     var minimumSpeedToClose: CGFloat!
     var imageColor: UIColor!
+    var checkmarkWidth: CGFloat!
     
     init() {
         self.defaultValue()
@@ -530,6 +531,7 @@ class BTConfiguration {
         self.shouldChangeTitleText = false
         self.minimumSpeedToClose = -1000
         self.imageColor = .darkGray
+        self.checkmarkWidth = 25
     }
 }
 
@@ -637,17 +639,22 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
 // MARK: Table view cell
 class BTTableViewCell: UITableViewCell {
-    let checkmarkIconWidth: CGFloat = 15
-    let horizontalMargin: CGFloat = 50
     
     var checkmarkIcon: UIImageView!
     var cellContentFrame: CGRect!
     var configuration: BTConfiguration!
     
+    let checkmarkIconWidth: CGFloat!
+    let horizontalMargin: CGFloat = 50
+
+    
     init(style: UITableViewCellStyle, reuseIdentifier: String?, configuration: BTConfiguration) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.configuration = configuration
+        
+        checkmarkIconWidth = configuration.checkmarkWidth
+        
         
         // Setup cell
         cellContentFrame = CGRect(x: 0, y: 0, width: (UIApplication.shared.keyWindow?.frame.width)!, height: self.configuration.cellHeight)
