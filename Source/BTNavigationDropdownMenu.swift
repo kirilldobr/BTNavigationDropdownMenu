@@ -174,6 +174,15 @@ open class BTNavigationDropdownMenu: UIView, HideMenuDelegate {
         }
     }
     
+    open var selectedIndexPath: Int!{
+        get {
+            return self.configuration.selectedIndexPath
+        }
+        set(value) {
+            self.configuration.selectedIndexPath = value
+        }
+    }
+    
     // The arrow next to navigation title
     open var arrowImage: UIImage! {
         get {
@@ -339,7 +348,7 @@ open class BTNavigationDropdownMenu: UIView, HideMenuDelegate {
     override open func layoutSubviews() {
         self.menuTitle.sizeToFit()
         self.menuTitle.center = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
-
+        
         self.menuTitle.textColor = self.configuration.menuTitleColor
         self.menuArrow.sizeToFit()
         self.menuArrow.center = CGPoint(x: self.menuTitle.frame.maxX + self.configuration.arrowPadding, y: self.frame.size.height/2)
@@ -434,11 +443,11 @@ open class BTNavigationDropdownMenu: UIView, HideMenuDelegate {
         // Change background alpha
         self.backgroundView.alpha = self.configuration.maskBackgroundOpacity
         
-//        UIView.animate(
-//            withDuration: self.configuration.animationDuration * 1.5){
-//                self.tableView.frame.origin.y = CGFloat(-200)
-//        }
-//    
+        //        UIView.animate(
+        //            withDuration: self.configuration.animationDuration * 1.5){
+        //                self.tableView.frame.origin.y = CGFloat(-200)
+        //        }
+        //
         
         // Animation
         UIView.animate(
@@ -496,6 +505,7 @@ class BTConfiguration {
     var minimumSpeedToClose: CGFloat!
     var imageColor: UIColor!
     var checkmarkWidth: CGFloat!
+    var selectedIndexPath: Int!
     
     init() {
         self.defaultValue()
@@ -532,6 +542,7 @@ class BTConfiguration {
         self.minimumSpeedToClose = -1000
         self.imageColor = .darkGray
         self.checkmarkWidth = 25
+        self.selectedIndexPath = 0
     }
 }
 
@@ -547,7 +558,6 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     // Private properties
     fileprivate var items: [AnyObject]!
-    fileprivate var selectedIndexPath: Int?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -557,7 +567,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         super.init(frame: frame, style: UITableViewStyle.plain)
         
         self.items = items
-        self.selectedIndexPath = (items as! [String]).index(of: title)
+        configuration.selectedIndexPath = (items as! [String]).index(of: title)
         self.configuration = configuration
         
         // Setup table view
@@ -593,13 +603,13 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = BTTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "Cell", configuration: self.configuration)
         cell.textLabel?.text = self.items[indexPath.row] as? String
-        cell.checkmarkIcon.isHidden = (indexPath.row == selectedIndexPath) ? false : true
+        cell.checkmarkIcon?.isHidden = (indexPath.row == configuration.selectedIndexPath) ? false : true
         return cell
     }
     
     // Table view delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndexPath = indexPath.row
+        configuration.selectedIndexPath = indexPath.row
         self.selectRowAtIndexPathHandler!(indexPath.row)
         self.reloadData()
         let cell = tableView.cellForRow(at: indexPath) as? BTTableViewCell
@@ -619,7 +629,7 @@ class BTTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if self.configuration.shouldKeepSelectedCellColor == true {
             cell.backgroundColor = self.configuration.cellBackgroundColor
-            cell.contentView.backgroundColor = (indexPath.row == selectedIndexPath) ? self.configuration.cellSelectionColor : self.configuration.cellBackgroundColor
+            cell.contentView.backgroundColor = (indexPath.row == configuration.selectedIndexPath) ? self.configuration.cellSelectionColor : self.configuration.cellBackgroundColor
         }
     }
     
@@ -646,7 +656,7 @@ class BTTableViewCell: UITableViewCell {
     
     var checkmarkIconWidth: CGFloat = 0
     let horizontalMargin: CGFloat = 50
-
+    
     
     init(style: UITableViewCellStyle, reuseIdentifier: String?, configuration: BTConfiguration) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -686,7 +696,7 @@ class BTTableViewCell: UITableViewCell {
         self.checkmarkIcon.tintColor = configuration.imageColor
         self.contentView.addSubview(self.checkmarkIcon)
         
-
+        
         
         
         // Separator for cell
